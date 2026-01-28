@@ -1,259 +1,132 @@
-# 🧬 Consulta NCBI - DNA e Genoma
+# 🧬 NCBI DNA Search
 
-Programa de consulta ao banco de dados do NCBI (National Center for Biotechnology Information) para buscar informações completas sobre DNA, genoma, sequências genéticas e dados de organismos.
+Desktop application for querying NCBI (National Center for Biotechnology Information) databases to retrieve DNA sequences, genome data, and organism information.
 
-## 🎯 Arquitetura Modular (OOP)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![BioPython](https://img.shields.io/badge/BioPython-1.81+-orange.svg)](https://biopython.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Este projeto foi refatorado de um arquivo monolítico de 2229 linhas para uma **arquitetura modular orientada a objetos**, melhorando manutenibilidade, testabilidade e legibilidade:
+## ✨ Features
 
-```
-📦 Projeto
-├── 📄 main.py                 # Ponto de entrada
-├── 📁 src/
-│   ├── 📄 config.py          # Configurações (UI_COLORS, FONTS, ALIGNMENT_CONFIG)
-│   ├── 📄 translations.py    # Suporte multilíngue (7 idiomas)
-│   ├── 📁 core/
-│   │   ├── 📄 ncbi_api.py    # Classe NCBIClient - API NCBI
-│   │   └── 📄 alignment.py   # Classe SequenceAligner - Alinhamento DNA/Proteína
-│   ├── 📁 ui/               # Componentes de interface (em desenvolvimento)
-│   └── 📁 export/           # Gerenciadores de exportação (em desenvolvimento)
-└── 📄 ncbi_dna_search.py     # Arquivo original (mantido como referência)
-```
+- 🔍 **Search** nucleotide sequences (DNA/RNA), genes, genomes, and publications
+- 🧬 **Sequence alignment** - DNA and Protein (BLOSUM62 matrix, 6-frame testing)
+- 📊 **Statistical analysis** - GC/AT content, base composition, interactive charts
+- 🌍 **Multilingual** - 7 languages (EN, PT, ES, FR, DE, ZH, RU)
+- 💾 **Export** - PDF reports and FASTA format
+- 🎨 **Modern GUI** - Dark theme with organized tabs
 
-**Benefícios da Refatoração:**
-- ✅ Cada arquivo < 500 linhas (vs. 2229 original)
-- ✅ Classes com responsabilidade única
-- ✅ Testabilidade independente
-- ✅ Reutilização de componentes
-- ✅ Colaboração facilitada
-
-## 📋 Funcionalidades
-
-- ✅ Busca de **sequências de nucleotídeos** (DNA/RNA)
-- ✅ Informações **taxonômicas** completas
-- ✅ Dados de **genoma e assemblies**
-- ✅ Informações sobre **genes**
-- ✅ **Publicações científicas** relacionadas (PubMed)
-- ✅ **Comparação de sequências DNA/Proteína** com alinhamento estilo VectorBuilder
-- ✅ **Alinhamento proteico com BLOSUM62** e teste de 6 frames
-- ✅ **Exportação multilíngue** (PDF/FASTA) em 7 idiomas
-- ✅ Interface gráfica simples e eficiente
-- ✅ Visualização de sequências genéticas formatadas
-- ✅ Múltiplas abas organizadas por tipo de informação
-
-## 🚀 Como Usar
-
-### 1. Instalação das Dependências
-
-Abra o terminal no diretório do projeto e execute:
+## 🚀 Quick Start
 
 ```bash
+# Clone repository
+git clone https://github.com/your-username/ncbi-dna-search.git
+cd ncbi-dna-search
+
+# Install dependencies
 pip install -r requirements.txt
-```
 
-### 2. Configurar Email
-
-No arquivo [ncbi_dna_search.py](ncbi_dna_search.py#L75), altere o email do NCBI:
-
-```python
-Entrez.email = "seu_email@exemplo.com"
-```
-
-Coloque seu email real (exigência da NCBI API).
-
-### 3. Executar o Programa
-
-```bash
-python main.py
-```
-
-Ou diretamente:
-```bash
+# Run application
 python ncbi_dna_search.py
 ```
 
-### 4. Realizar Buscas
+**Note**: Configure your email in the app (NCBI requirement)
 
-1. Digite o nome do organismo no campo de busca (ex: "Homo sapiens", "Escherichia coli", "Canis lupus")
-2. Clique em **🔍 Buscar** ou pressione Enter
-3. Explore os resultados nas abas:
-   - **📋 Informações Gerais**: Resumo e dados dos genes
-   - **🧬 Sequências**: Sequências de DNA completas
-   - **🌳 Taxonomia**: Classificação taxonômica
-   - **🔬 Genoma**: Informações do genoma e assemblies
-   - **📚 Publicações**: Artigos científicos relacionados
+## � Alignment Capabilities
 
-### 5. Comparar Sequências
+### DNA Alignment
+- **Global**: End-to-end alignment (same species)
+- **Local**: Find regions of similarity (different species)
 
-Na aba **Comparação**, você pode:
-- **Alinhamento DNA**: Compara sequências nucleotídicas
-- **Alinhamento Proteína**: Traduz DNA→Proteína e alinha com BLOSUM62
-  - Testa 6 frames (3 forward + 3 reverse complement)
-  - Seleciona automaticamente o melhor frame
-  - Score idêntico ao VectorBuilder
+### Protein Alignment (VectorBuilder-style)
+- Translates DNA → Protein automatically
+- Tests all 6 reading frames (3 forward + 3 reverse)
+- Uses BLOSUM62 substitution matrix
+- Calculates: Identity, Similarity, Gaps, Transitions/Transversions
 
-### 6. Exportar Resultados
+**Example Results:**
+```
+DNA: 5040 bp → Protein: 1680 aa
+Score: 509.0
+Identity: 17.03% | Similarity: 24.56% | Gaps: 57.24%
+```
 
-Clique em **💾 Exportar** para salvar em:
-- **PDF**: Relatório multilíngue com estatísticas completas
-- **FASTA**: Formato padrão para sequências biológicas
+## 🧩 Modular Architecture
 
-## 🧩 Arquitetura Modular - Classes Principais
+Refactored from monolithic 2229-line file to modular OOP design:
 
-### NCBIClient (`src/core/ncbi_api.py`)
+```
+src/
+├── config.py          # UI colors, fonts, alignment settings
+├── translations.py    # 7 language translations
+└── core/
+    ├── ncbi_api.py    # NCBIClient class
+    └── alignment.py   # SequenceAligner class
+```
 
-Gerencia todas as interações com a API NCBI:
-
+**Usage Example:**
 ```python
 from src.core.ncbi_api import NCBIClient
-
-client = NCBIClient(email="seu_email@exemplo.com")
-
-# Buscar organismo
-ids = client.search_organism("Homo sapiens", database="nucleotide", max_results=10)
-
-# Obter sequência
-sequence_data = client.fetch_sequence(ids[0], database="nucleotide")
-
-# Informações taxonômicas
-taxonomy = client.fetch_taxonomy("Canis lupus")
-```
-
-### SequenceAligner (`src/core/alignment.py`)
-
-Alinha sequências DNA e proteínas:
-
-```python
 from src.core.alignment import SequenceAligner
 
-aligner = SequenceAligner(
-    match_score=2,
-    mismatch_score=-1,
-    gap_open=-2.0,
-    gap_extend=-2.0
-)
+# NCBI queries
+client = NCBIClient(email="your@email.com")
+ids = client.search_organism("Homo sapiens")
+seq = client.fetch_sequence(ids[0])
 
-# Alinhamento DNA
-dna_result = aligner.align_dna(seq1, seq2, alignment_type='global')
-
-# Alinhamento Proteína (testa 6 frames)
-protein_result = aligner.align_protein(dna1, dna2, use_best_frame=True)
+# Sequence alignment
+aligner = SequenceAligner()
+result = aligner.align_protein(dna1, dna2, use_best_frame=True)
 ```
 
-Veja [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) para mais exemplos.
+See [ARCHITECTURE.md](ARCHITECTURE.md) and [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for details.
 
-## 📊 Bancos de Dados Disponíveis
+## 🌍 Languages
 
-O programa consulta automaticamente múltiplos bancos de dados do NCBI:
+| Language | Code | | Language | Code |
+|----------|------|---|----------|------|
+| 🇺🇸 English | `en` | | 🇫🇷 Français | `fr` |
+| 🇧🇷 Português | `pt` | | 🇩🇪 Deutsch | `de` |
+| 🇪🇸 Español | `es` | | 🇨🇳 中文 | `zh` |
+| | | | 🇷🇺 Русский | `ru` |
 
-- **Nucleotide**: Sequências de DNA e RNA
-- **Genome**: Genomas completos
-- **Gene**: Informações sobre genes específicos
-- **Protein**: Sequências de proteínas
-- **Taxonomy**: Classificação taxonômica
-- **PubMed**: Publicações científicas
-- **Assembly**: Assemblies de genomas
+## 📦 Dependencies
 
-## 🔍 Exemplos de Busca
+```
+biopython>=1.81
+matplotlib>=3.5.0
+reportlab>=3.6.0
+certifi>=2021.10.8
+```
 
-- `Homo sapiens` - Humano
-- `Canis lupus familiaris` - Cachorro
-- `Escherichia coli` - Bactéria E. coli
-- `BRCA1` - Gene específico
-- `Tyrannosaurus rex` - Dinossauro
-- `SARS-CoV-2` - Vírus COVID-19
+## 🛠️ Tech Stack
 
-## 🌍 Suporte Multilíngue
+- **Python 3.8+** - Core language
+- **BioPython** - NCBI API, alignments (pairwise2, PairwiseAligner)
+- **Tkinter** - Cross-platform GUI
+- **Matplotlib** - Interactive charts
+- **ReportLab** - PDF generation
+- **BLOSUM62** - Protein substitution matrix
 
-Interface disponível em 7 idiomas:
+## 📖 Documentation
 
-| Idioma | Código | Status |
-|--------|--------|--------|
-| 🇧🇷 Português | `pt` | ✅ Completo |
-| 🇺🇸 English | `en` | ✅ Complete |
-| 🇪🇸 Español | `es` | ✅ Completo |
-| 🇫🇷 Français | `fr` | ✅ Complet |
-| 🇩🇪 Deutsch | `de` | ✅ Vollständig |
-| 🇨🇳 中文 | `zh` | ✅ 完成 |
-| 🇷🇺 Русский | `ru` | ✅ Завершено |
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Project architecture and roadmap
+- [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Migration guide with code examples
+- [NCBI E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/) - Official NCBI API docs
 
-Altere o idioma na interface gráfica ou via [translations.py](src/translations.py).
+## 🤝 Contributing
 
-## ⚙️ Requisitos
+Contributions welcome! See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for project structure.
 
-- Python 3.7 ou superior
-- Conexão com a internet
-- Tkinter (geralmente já incluído no Python)
-- Bibliotecas: Biopython, ReportLab (veja [requirements.txt](requirements.txt))
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/NewFeature`)
+3. Commit changes (`git commit -m 'Add NewFeature'`)
+4. Push to branch (`git push origin feature/NewFeature`)
+5. Open Pull Request
 
-## 📝 Notas Importantes
+## 📄 License
 
-1. **Limite de Requisições**: A NCBI API tem limite de 3 requisições por segundo sem API key
-2. **Email Obrigatório**: Sempre configure seu email no código
-3. **Dados Públicos**: Todos os dados são públicos e de livre acesso
-4. **Sequências Grandes**: Sequências muito grandes são truncadas na visualização (primeiros 5000 bp)
-5. **Alinhamento VectorBuilder**: O alinhamento proteico usa os mesmos parâmetros do VectorBuilder (BLOSUM62, gap penalties -2.0)
+Educational and scientific use. Please respect NCBI API terms of service.
 
-## 🛠️ Tecnologias Utilizadas
+---
 
-- **Python 3.11+**: Linguagem principal
-- **Biopython 1.81+**: API NCBI, alinhamentos (pairwise2, PairwiseAligner)
-- **Tkinter**: Interface gráfica multiplataforma
-- **ReportLab**: Geração de PDFs
-- **NCBI E-utilities**: API pública do NCBI
-- **BLOSUM62**: Matriz de substituição para alinhamento proteico
-
-## 📖 Documentação
-
-- [NCBI E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/) - API oficial NCBI
-- [Biopython Tutorial](https://biopython.org/wiki/Documentation) - Documentação Biopython
-- [ARCHITECTURE.md](ARCHITECTURE.md) - Arquitetura do projeto
-- [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Guia de migração e exemplos
-
-## 🗺️ Roadmap
-
-### ✅ Fase 1 - Infraestrutura (Completo)
-- [x] Estrutura modular de diretórios
-- [x] Classes NCBIClient e SequenceAligner
-- [x] Sistema de configuração e traduções
-- [x] Documentação completa
-
-### 🔄 Fase 2 - UI Modular (Próximo)
-- [ ] Extrair componentes de UI do monolito
-- [ ] Classes para MainWindow, Tabs, SearchBar
-- [ ] Padrão Observer para atualizações
-
-### 📦 Fase 3 - Sistema de Export
-- [ ] ExportManager com estratégias
-- [ ] PDFExporter e FASTAExporter
-- [ ] Templates multilíngues
-
-### 🧪 Fase 4 - Testes
-- [ ] Unit tests para NCBIClient
-- [ ] Unit tests para SequenceAligner
-- [ ] Testes de integração
-- [ ] CI/CD pipeline
-
-### 🚀 Fase 5 - Finalização
-- [ ] Deprecar arquivo monolítico
-- [ ] Otimização de performance
-- [ ] Documentação final
-
-## 🤝 Contribuições
-
-Contribuições são bem-vindas! Veja [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) para entender a estrutura do projeto.
-
-**Como contribuir:**
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Uso educacional e científico. Respeite os termos de uso da NCBI API.
-
-## 👨‍💻 Autor
-
-Projeto educacional desenvolvido para consulta e análise de dados biológicos do NCBI.
+**Made with ❤️ and 🧬** | [Report Issues](../../issues) | [Documentation](ARCHITECTURE.md)
