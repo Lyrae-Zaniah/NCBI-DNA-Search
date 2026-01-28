@@ -140,11 +140,7 @@ With the modular structure, contributing is easier:
 2. Make changes to small files
 3. Test individually
 4. Focused pull request
-
-## 📄 License
-
-[Your license here]
-
+   
 ---
 
 **Note**: Migration is in progress. The original file `ncbi_dna_search.py` is still functional and can be used normally. The new modular structure will be adopted gradually.
