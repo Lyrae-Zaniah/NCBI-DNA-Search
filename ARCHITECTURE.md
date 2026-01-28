@@ -1,128 +1,128 @@
-# NCBI DNA Search - Arquitetura Modular
+# NCBI DNA Search - Modular Architecture
 
-## 📁 Estrutura do Projeto Refatorado
+## 📁 Refactored Project Structure
 
 ```
 Consulta Em Banco de Dados de DNA/
-├── main.py                    # Ponto de entrada principal
-├── ncbi_dna_search.py        # Arquivo original (será migrado gradualmente)
+├── main.py                    # Main entry point
+├── ncbi_dna_search.py        # Original file (gradual migration)
 ├── requirements.txt
 ├── README.md
-└── src/                      # Código fonte modularizado
-    ├── config.py             # ⚙️  Configurações globais
-    ├── translations.py       # 🌍 Traduções multilíngue
-    ├── core/                 # 🧬 Lógica de negócio
+└── src/                      # Modularized source code
+    ├── config.py             # ⚙️  Global configurations
+    ├── translations.py       # 🌍 Multilingual translations
+    ├── core/                 # 🧬 Business logic
     │   ├── __init__.py
-    │   ├── ncbi_api.py      # API do NCBI
-    │   └── alignment.py     # Alinhamento de sequências
-    ├── ui/                   # 🖥️  Interface gráfica
+    │   ├── ncbi_api.py      # NCBI API
+    │   └── alignment.py     # Sequence alignment
+    ├── ui/                   # 🖥️  Graphical interface
     │   ├── __init__.py
-    │   └── main_window.py   # Janela principal
-    └── export/               # 💾 Exportação
+    │   └── main_window.py   # Main window
+    └── export/               # 💾 Export functionality
         ├── __init__.py
-        └── export_manager.py # Gerenciamento de exports
+        └── export_manager.py # Export management
 ```
 
-## 🎯 Benefícios da Arquitetura Modular
+## 🎯 Benefits of Modular Architecture
 
-### ✅ Antes (Arquivo Único)
-- ❌ Mais de 2200 linhas em um arquivo
-- ❌ Difícil manutenção
-- ❌ Testes complicados
-- ❌ Reutilização limitada
+### ✅ Before (Single File)
+- ❌ Over 2200 lines in one file
+- ❌ Difficult maintenance
+- ❌ Complex testing
+- ❌ Limited reusability
 
-### ✅ Depois (Modular)
-- ✅ Arquivos pequenos e focados (<500 linhas cada)
-- ✅ Separação clara de responsabilidades
-- ✅ Fácil de testar individualmente
-- ✅ Código reutilizável
-- ✅ Melhor organização em equipe
+### ✅ After (Modular)
+- ✅ Small, focused files (<500 lines each)
+- ✅ Clear separation of concerns
+- ✅ Easy to test individually
+- ✅ Reusable code
+- ✅ Better team organization
 
-## 📦 Módulos Criados
+## 📦 Created Modules
 
 ### 1. `src/config.py`
-- Configurações globais da aplicação
-- Cores da UI
-- Parâmetros de alinhamento
-- Configurações SSL/NCBI
+- Global application settings
+- UI colors
+- Alignment parameters
+- SSL/NCBI configuration
 
 ### 2. `src/translations.py`
-- Dicionários de tradução para 7 idiomas
-- Função helper `get_translation()`
-- Português, English, Español, Français, Deutsch, 中文, Русский
+- Translation dictionaries for 7 languages
+- Helper function `get_translation()`
+- Portuguese, English, Spanish, French, German, Chinese, Russian
 
-### 3. `src/core/` (A ser implementado)
-- **ncbi_api.py**: Integração com API NCBI
-  - Classe `NCBIClient`
-  - Métodos para buscar sequências, taxonomia, genoma
+### 3. `src/core/` (To be implemented)
+- **ncbi_api.py**: NCBI API integration
+  - `NCBIClient` class
+  - Methods to fetch sequences, taxonomy, genome
   
-- **alignment.py**: Algoritmos de alinhamento
-  - Classe `SequenceAligner`
-  - Alinhamento DNA/Proteína
-  - Cálculo de similaridade
+- **alignment.py**: Alignment algorithms
+  - `SequenceAligner` class
+  - DNA/Protein alignment
+  - Similarity calculation
 
-### 4. `src/ui/` (A ser implementado)
-- **main_window.py**: Interface gráfica principal
-  - Classe `MainWindow`
-  - Gerenciamento de tabs
-  - Componentes reutilizáveis
+### 4. `src/ui/` (To be implemented)
+- **main_window.py**: Main graphical interface
+  - `MainWindow` class
+  - Tab management
+  - Reusable components
 
-### 5. `src/export/` (A ser implementado)
-- **export_manager.py**: Exportação de dados
-  - Classe `ExportManager`
-  - Export para PDF, FASTA
-  - Formatação multilíngue
+### 5. `src/export/` (To be implemented)
+- **export_manager.py**: Data export
+  - `ExportManager` class
+  - Export to PDF, FASTA
+  - Multilingual formatting
 
-## 🚀 Como Executar
+## 🚀 How to Run
 
 ```bash
-# Método 1: Usando o novo main.py
+# Method 1: Using new main.py
 python main.py
 
-# Método 2: Arquivo original (ainda funcional)
+# Method 2: Original file (still functional)
 python ncbi_dna_search.py
 ```
 
-## 📝 Roadmap de Migração
+## 📝 Migration Roadmap
 
-### Fase 1: Estrutura Base ✅ (COMPLETO)
-- [x] Criar diretórios src/
-- [x] Extrair config.py
-- [x] Extrair translations.py
-- [x] Criar main.py
+### Phase 1: Base Structure ✅ (COMPLETE)
+- [x] Create src/ directories
+- [x] Extract config.py
+- [x] Extract translations.py
+- [x] Create main.py
 
-### Fase 2: Core Modules (PRÓXIMO)
-- [ ] Implementar ncbi_api.py
-- [ ] Implementar alignment.py
-- [ ] Criar testes unitários
+### Phase 2: Core Modules (NEXT)
+- [ ] Implement ncbi_api.py
+- [ ] Implement alignment.py
+- [ ] Create unit tests
 
-### Fase 3: UI Modules
-- [ ] Refatorar main_window.py
-- [ ] Separar componentes de UI
-- [ ] Implementar padrão Observer
+### Phase 3: UI Modules
+- [ ] Refactor main_window.py
+- [ ] Separate UI components
+- [ ] Implement Observer pattern
 
-### Fase 4: Export & Utils
-- [ ] Implementar export_manager.py
-- [ ] Adicionar logging
-- [ ] Documentação completa
+### Phase 4: Export & Utils
+- [ ] Implement export_manager.py
+- [ ] Add logging
+- [ ] Complete documentation
 
-### Fase 5: Finalização
-- [ ] Migração completa
-- [ ] Deprecar ncbi_dna_search.py
-- [ ] Testes de integração
+### Phase 5: Finalization
+- [ ] Complete migration
+- [ ] Deprecate ncbi_dna_search.py
+- [ ] Integration tests
 
-## 🔧 Padrões de Design Utilizados
+## 🔧 Design Patterns Used
 
 - **MVC (Model-View-Controller)**
   - Model: `src/core/`
   - View: `src/ui/`
-  - Controller: Conexão entre ambos
+  - Controller: Connection between both
 
-- **Singleton**: Para configurações globais
-- **Factory**: Para criação de exportadores
-- **Strategy**: Para diferentes tipos de alinhamento
+- **Singleton**: For global configurations
+- **Factory**: For creating exporters
+- **Strategy**: For different alignment types
 
-## 📚 Dependências
+## 📚 Dependencies
 
 ```
 biopython
@@ -132,19 +132,19 @@ reportlab
 certifi
 ```
 
-## 👥 Contribuindo
+## 👥 Contributing
 
-Com a estrutura modular, contribuir ficou mais fácil:
+With the modular structure, contributing is easier:
 
-1. Escolha um módulo específico
-2. Faça alterações em arquivos pequenos
-3. Teste individualmente
-4. Pull request focado
+1. Choose a specific module
+2. Make changes to small files
+3. Test individually
+4. Focused pull request
 
-## 📄 Licença
+## 📄 License
 
-[Sua licença aqui]
+[Your license here]
 
 ---
 
-**Nota**: A migração está em andamento. O arquivo original `ncbi_dna_search.py` ainda é funcional e pode ser usado normalmente. A nova estrutura modular será adotada gradualmente.
+**Note**: Migration is in progress. The original file `ncbi_dna_search.py` is still functional and can be used normally. The new modular structure will be adopted gradually.

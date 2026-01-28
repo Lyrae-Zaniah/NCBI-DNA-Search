@@ -1,82 +1,82 @@
-# 📊 Guia de Migração - Estrutura Modular
+# 📊 Migration Guide - Modular Structure
 
-## ✅ O que foi criado
+## ✅ What Was Created
 
-### 1. Estrutura de Diretórios
+### 1. Directory Structure
 ```
 src/
-├── config.py              ✅ Criado - Configurações globais
-├── translations.py        ✅ Criado - 7 idiomas completos
+├── config.py              ✅ Created - Global configurations
+├── translations.py        ✅ Created - 7 complete languages
 ├── core/
-│   ├── __init__.py       ✅ Criado
-│   ├── ncbi_api.py       ✅ Criado - Classe NCBIClient
-│   └── alignment.py      ✅ Criado - Classe SequenceAligner
+│   ├── __init__.py       ✅ Created
+│   ├── ncbi_api.py       ✅ Created - NCBIClient class
+│   └── alignment.py      ✅ Created - SequenceAligner class
 ├── ui/
-│   └── __init__.py       ✅ Criado
+│   └── __init__.py       ✅ Created
 └── export/
-    └── __init__.py       ✅ Criado
+    └── __init__.py       ✅ Created
 ```
 
-### 2. Arquivos na Raiz
+### 2. Root Files
 ```
-main.py                   ✅ Criado - Novo ponto de entrada
-ARCHITECTURE.md           ✅ Criado - Documentação arquitetura
-MIGRATION_GUIDE.md        ✅ Criado - Este guia
-ncbi_dna_search.py        ⚠️  Original mantido (funcional)
+main.py                   ✅ Created - New entry point
+ARCHITECTURE.md           ✅ Created - Architecture documentation
+MIGRATION_GUIDE.md        ✅ Created - This guide
+ncbi_dna_search.py        ⚠️  Original kept (functional)
 ```
 
-## 🎯 Como Usar Agora
+## 🎯 How to Use Now
 
-### Opção 1: Arquivo Original (Ainda Funcional)
+### Option 1: Original File (Still Functional)
 ```bash
 python ncbi_dna_search.py
 ```
-✅ Continua funcionando 100%  
-✅ Todas as 2229 linhas intactas  
-✅ Sem mudanças no comportamento
+✅ Still works 100%  
+✅ All 2229 lines intact  
+✅ No behavior changes
 
-### Opção 2: Nova Estrutura Modular
+### Option 2: New Modular Structure
 ```bash
 python main.py
 ```
-⚠️  Por enquanto chama o original  
-🔄 Migração gradual em andamento
+⚠️  Currently calls original  
+🔄 Gradual migration in progress
 
-## 📦 Módulos Criados e Prontos para Uso
+## 📦 Created Modules Ready to Use
 
 ### 1. **NCBIClient** (src/core/ncbi_api.py)
 
 ```python
 from src.core.ncbi_api import NCBIClient
 
-# Criar cliente
-client = NCBIClient(email="seu@email.com")
+# Create client
+client = NCBIClient(email="your@email.com")
 
-# Buscar organismo
+# Search organism
 ids = client.search_organism("Homo sapiens", max_results=10)
 
-# Buscar sequência
+# Fetch sequence
 seq_data = client.fetch_sequence(ids[0])
 
-# Buscar taxonomia
+# Fetch taxonomy
 tax_info = client.fetch_taxonomy("Homo sapiens")
 
-# Buscar genoma
+# Fetch genome
 genomes = client.fetch_genome_info("Homo sapiens")
 ```
 
-**Métodos disponíveis:**
-- `search_organism()` - Busca IDs no NCBI
-- `fetch_sequence()` - Busca sequência por ID
-- `fetch_taxonomy()` - Informações taxonômicas
-- `fetch_genome_info()` - Informações de genoma
+**Available Methods:**
+- `search_organism()` - Search IDs in NCBI
+- `fetch_sequence()` - Fetch sequence by ID
+- `fetch_taxonomy()` - Taxonomic information
+- `fetch_genome_info()` - Genome information
 
 ### 2. **SequenceAligner** (src/core/alignment.py)
 
 ```python
 from src.core.alignment import SequenceAligner
 
-# Criar alinhador
+# Create aligner
 aligner = SequenceAligner(
     match_score=2.0,
     mismatch_score=-1.0,
@@ -84,173 +84,173 @@ aligner = SequenceAligner(
     gap_extend=-2.0
 )
 
-# Alinhamento DNA
+# DNA Alignment
 result = aligner.align_dna(
     seq1="ATCGATCG",
     seq2="ATGGATCG",
-    alignment_type='global'  # ou 'local'
+    alignment_type='global'  # or 'local'
 )
 print(f"Identity: {result['identity']:.2f}%")
 print(f"Score: {result['score']}")
 
-# Alinhamento Proteína (com best frame)
+# Protein Alignment (with best frame)
 result = aligner.align_protein(
     dna1="ATGCGATCGATCG",
     dna2="ATGCGATGGATCG",
-    use_best_frame=True  # Testa todos os 6 frames
+    use_best_frame=True  # Tests all 6 frames
 )
 print(f"Frame 1: {result['frame1']}, Frame 2: {result['frame2']}")
 print(f"Score: {result['score']}")
 ```
 
-**Recursos:**
-- Alinhamento DNA: Global e Local
-- Alinhamento Proteína: Com seleção automática do melhor frame
-- Estatísticas detalhadas: Identity, Similarity, Matches, Gaps
-- Suporte BLOSUM62 para proteínas
+**Features:**
+- DNA Alignment: Global and Local
+- Protein Alignment: Automatic best frame selection
+- Detailed Statistics: Identity, Similarity, Matches, Gaps
+- BLOSUM62 support for proteins
 
 ### 3. **Translations** (src/translations.py)
 
 ```python
 from src.translations import get_translation, TRANSLATIONS
 
-# Usar função helper
-texto = get_translation('pt', 'search_button')  # "🔍  Buscar"
-texto = get_translation('en', 'search_button')  # "🔍  Search"
+# Use helper function
+text = get_translation('pt', 'search_button')  # "🔍  Buscar"
+text = get_translation('en', 'search_button')  # "🔍  Search"
 
-# Acessar diretório direto
-titulo_pt = TRANSLATIONS['pt']['title']
-titulo_es = TRANSLATIONS['es']['title']
+# Direct dictionary access
+title_pt = TRANSLATIONS['pt']['title']
+title_es = TRANSLATIONS['es']['title']
 ```
 
-**Idiomas disponíveis:**
-- 🇧🇷 Português (pt)
+**Available Languages:**
+- 🇧🇷 Portuguese (pt)
 - 🇺🇸 English (en)
-- 🇪🇸 Español (es)
-- 🇫🇷 Français (fr)
-- 🇩🇪 Deutsch (de)
-- 🇨🇳 中文 (zh)
-- 🇷🇺 Русский (ru)
+- 🇪🇸 Spanish (es)
+- 🇫🇷 French (fr)
+- 🇩🇪 German (de)
+- 🇨🇳 Chinese (zh)
+- 🇷🇺 Russian (ru)
 
 ### 4. **Config** (src/config.py)
 
 ```python
 from src.config import UI_COLORS, FONTS, ALIGNMENT_CONFIG
 
-# Cores padronizadas
+# Standardized colors
 window.configure(bg=UI_COLORS['bg_dark'])
 button.configure(bg=UI_COLORS['accent_red'])
 
-# Fontes padronizadas
+# Standardized fonts
 label.configure(font=FONTS['heading'])
 
-# Configurações de alinhamento
+# Alignment configurations
 match_score = ALIGNMENT_CONFIG['match_score']
 ```
 
-## 🔄 Próximos Passos da Migração
+## 🔄 Next Migration Steps
 
-### Fase 2: UI Modules (Próxima)
-- [ ] Criar `src/ui/main_window.py`
-- [ ] Extrair componentes de UI
-- [ ] Separar tabs em arquivos individuais
-- [ ] Implementar padrão Observer para atualização
+### Phase 2: UI Modules (Next)
+- [ ] Create `src/ui/main_window.py`
+- [ ] Extract UI components
+- [ ] Separate tabs into individual files
+- [ ] Implement Observer pattern for updates
 
-### Fase 3: Export Module
-- [ ] Criar `src/export/export_manager.py`
-- [ ] Classe `PDFExporter`
-- [ ] Classe `FASTAExporter`
-- [ ] Suporte multilíngue automático
+### Phase 3: Export Module
+- [ ] Create `src/export/export_manager.py`
+- [ ] `PDFExporter` class
+- [ ] `FASTAExporter` class
+- [ ] Automatic multilingual support
 
-### Fase 4: Testes
-- [ ] Criar `tests/` directory
-- [ ] Testes unitários para NCBIClient
-- [ ] Testes unitários para SequenceAligner
-- [ ] Testes de integração
+### Phase 4: Testing
+- [ ] Create `tests/` directory
+- [ ] Unit tests for NCBIClient
+- [ ] Unit tests for SequenceAligner
+- [ ] Integration tests
 
-### Fase 5: Documentação
-- [ ] Docstrings completos
-- [ ] Exemplos de uso
-- [ ] Tutorial passo a passo
+### Phase 5: Documentation
+- [ ] Complete docstrings
+- [ ] Usage examples
+- [ ] Step-by-step tutorial
 - [ ] API Reference
 
-## 💡 Benefícios Imediatos
+## 💡 Immediate Benefits
 
-### Para Desenvolvimento
-- ✅ Código organizado por responsabilidade
-- ✅ Fácil de entender cada módulo
-- ✅ Reutilização de código
-- ✅ Testes independentes possíveis
+### For Development
+- ✅ Code organized by responsibility
+- ✅ Easy to understand each module
+- ✅ Code reusability
+- ✅ Independent testing possible
 
-### Para Manutenção
-- ✅ Mudanças localizadas
-- ✅ Menos risco de quebrar outras partes
-- ✅ Mais fácil de debugar
-- ✅ Melhor rastreabilidade
+### For Maintenance
+- ✅ Localized changes
+- ✅ Less risk of breaking other parts
+- ✅ Easier to debug
+- ✅ Better traceability
 
-### Para Colaboração
-- ✅ Múltiplas pessoas podem trabalhar simultaneamente
-- ✅ Pull requests menores e focados
-- ✅ Code review mais eficiente
-- ✅ Onboarding mais rápido
+### For Collaboration
+- ✅ Multiple people can work simultaneously
+- ✅ Smaller, focused pull requests
+- ✅ More efficient code review
+- ✅ Faster onboarding
 
-## 🚀 Como Contribuir Agora
+## 🚀 How to Contribute Now
 
-### 1. Escolha um Módulo
-Escolha uma parte para refatorar:
+### 1. Choose a Module
+Select a part to refactor:
 - UI Components
 - Export Manager
 - Utils & Helpers
 - Documentation
 
-### 2. Siga o Padrão
+### 2. Follow the Pattern
 ```python
 """
-Docstring descritivo do módulo
+Descriptive module docstring
 """
 
 class MyClass:
-    """Docstring da classe"""
+    """Class docstring"""
     
     def __init__(self, param: type):
         """
-        Inicializador
+        Initializer
         
         Args:
-            param: Descrição do parâmetro
+            param: Parameter description
         """
         self.param = param
     
     def method(self) -> return_type:
         """
-        Descrição do método
+        Method description
         
         Returns:
-            Descrição do retorno
+            Return value description
         """
         pass
 ```
 
-### 3. Teste Individualmente
+### 3. Test Individually
 ```python
 if __name__ == "__main__":
-    # Código de teste aqui
+    # Test code here
     obj = MyClass(param="test")
     result = obj.method()
     print(f"Result: {result}")
 ```
 
-### 4. Documente
-- Adicione docstrings
-- Atualize ARCHITECTURE.md
-- Adicione exemplos de uso
+### 4. Document
+- Add docstrings
+- Update ARCHITECTURE.md
+- Add usage examples
 
-## 📞 Contato
+## 📞 Contact
 
-Para dúvidas sobre a migração, abra uma issue ou contacte o time de desenvolvimento.
+For questions about the migration, open an issue or contact the development team.
 
 ---
 
-**Status**: ✅ Fase 1 Completa - Estrutura base criada  
-**Próximo**: 🔄 Fase 2 - UI Modules  
-**Data**: Janeiro 2026
+**Status**: ✅ Phase 1 Complete - Base structure created  
+**Next**: 🔄 Phase 2 - UI Modules  
+**Date**: January 2026
